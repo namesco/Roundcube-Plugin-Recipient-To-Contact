@@ -1,0 +1,31 @@
+RoundCube Recipient To Contact Plugin
+=====================================
+
+Recipient To Contact is plugin to quickly add new contacts to address books. When sending an email to
+unknown recipients, that is, to recipients that aren't in the address book, Recipient To Contact plugin
+displays a form to quickly save these contacts. Inspired by Automatic Addressbook plugin.
+
+Features:
+ * Simple jQuery UI based interface.
+ * Parses 'To:', 'Cc:' and 'Bcc:' and prefills automatically name and email address fields.
+ * Configurable: which address books to use for searching; default behavior; etc.
+ * Can be activated/deactivated through User Preferences section.
+ * Advanced error handling.
+
+Installation
+=====================================
+1. Place this plugin folder into plugins directory of RoundCube
+2. Add 'recipient_to_contact' to $rcmail_config['plugins'] in your RoundCube config
+
+Configuration
+=====================================
+The default config file is plugins/recipient_to_contact/config.inc.php.dist
+Rename this to plugins/recipient_to_contact/config.inc.php
+
+Configuration options:
+
+'recipient_to_contact_addressbooks'
+A list of address book IDs, which would be used for searching existing contacts. For example, if it contains
+array('sql', 'global', 'ldap') the plugin will look for existing contacts only in these address books. By
+default, empty array means the plugin will use address books specified in 'autocomplete_addressbooks' option
+in the RoundCube configuration file.

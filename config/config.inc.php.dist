@@ -1,0 +1,17 @@
+<?php
+
+/**
+ * Defines addressbooks, which are used for searching existing contacts
+ * and which are available for adding new contacts.
+ *
+ * Empty array means the plugins uses 'autocomplete_addressbooks' setting from main.inc.php
+ */
+$rcmail_config['recipient_to_contact_addressbooks'] = array();
+
+/**
+ * Defines, whether the plugin is enabled or disabled for users by default.
+ *
+ * If set to true, the plugin is enabled and users can disable it through settings menu.
+ */
+$rcmail_config['recipient_to_contact_enabled_by_default'] = true;
+?>
