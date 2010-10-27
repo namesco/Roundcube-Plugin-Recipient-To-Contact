@@ -55,6 +55,19 @@ class recipient_to_contact extends rcube_plugin
     {
         $this->rcmail = rcmail::get_instance();
 
+        // check that jQuery UI plugin is activated
+        if (array_search('jqueryui', $this->rcmail->config->get('plugins')) === false) {
+            raise_error(array(
+                'code' => 500,
+                'type' => 'php',
+                'file' => __FILE__,
+                'line' => __LINE__,
+                'message' => "Could not initialize recipient_to_contact plugin. "
+                             . "jQuery UI plugin is not installed/activated"
+            ), true, false);
+            return;
+		}
+
         // load configuration
         if (file_exists($this->home . '/config/config.inc.php')) {
             $this->load_config('config/config.inc.php');

@@ -12,6 +12,12 @@ Features:
  * Can be activated/deactivated through User Preferences section.
  * Advanced error handling.
 
+Requirements
+=====================================
+1. Plugin is compatible with RoundCube v0.4 or later.
+2. jQuery UI plugin is required, which can be obtained from http://underwa.ter.net/roundcube-plugins or
+   http://myroundcube.googlecode.com or
+
 Installation
 =====================================
 1. Place this plugin folder into plugins directory of RoundCube
@@ -29,3 +35,8 @@ A list of address book IDs, which would be used for searching existing contacts.
 array('sql', 'global', 'ldap') the plugin will look for existing contacts only in these address books. By
 default, empty array means the plugin will use address books specified in 'autocomplete_addressbooks' option
 in the RoundCube configuration file.
+
+License
+=====================================
+This plugin is distributed under the GPLv3 license. Please see http://www.gnu.org/licenses/gpl-3.0.txt
+for the complete license.
