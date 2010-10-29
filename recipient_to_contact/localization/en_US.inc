@@ -17,5 +17,6 @@ $labels['dialog_add_selected'] = 'Add selected to: ';
 $labels['response_name_empty'] = 'Please enter a contact name';
 $labels['response_email_invalid'] = 'Please enter a valid email address';
 $labels['response_server_error'] = 'Server error';
+$labels['response_none_selected'] = 'Please select an adressbook';
 $labels['response_confirm'] = 'Contact added successfully';
 ?>

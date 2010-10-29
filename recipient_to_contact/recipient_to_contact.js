@@ -9,7 +9,7 @@
  * @author    Vladimir Minakov <vminakov@names.co.uk>
  * @copyright 2009-2010 Namesco Limited
  * @license   http://www.gnu.org/licenses/gpl-3.0.txt GPLv3 License
- * @version   0.1
+ * @version   0.1.1
  */
 
 /**
@@ -56,7 +56,7 @@ var recipient_to_contact = {
                            + "<td>" + rcmail.gettext('dialog_email', 'recipient_to_contact') + "</td>"
                            + "<td><input type='checkbox' id='new-contacts-select-all' /></td>")
         ).appendTo($('#new-contacts-dialog'));
-    
+
 
         // iterate over new contacts contacts and generate a table row for each contact
         $.each(response.contacts, function(key, contact) {
@@ -138,7 +138,7 @@ var recipient_to_contact = {
         var new_contacts = [];
 
         var is_valid = true;
-        
+
         checked.each(function() {
            // for each selected checkbox find corresponding input fields with contact's name and email
            var contact = $(this).parents('tr').first().find('input:text');
@@ -189,9 +189,18 @@ var recipient_to_contact = {
             buttons: {
     				Close: function() {
     					$(this).dialog( "close" );
+                        // description below
+                        rcube_event.add_listener({event:bw.opera?'keypress':'keydown', object: rcmail.message_list, method:'key_press'});
+                        rcube_event.add_listener({event:'keydown', object:rcmail.message_list, method:'key_down'});
     				}
         	}
         });
+
+        // rcmail_list_widget captures all keyboard events. Because of that you can't use keys like
+        // Space or BackSpace in the input fields in modal dialog. Disable temporarily keyboard
+        // event catching and
+        rcube_event.remove_listener({event:bw.opera?'keypress':'keydown', object: rcmail.message_list, method:'key_press'});
+        rcube_event.remove_listener({event:'keydown', object:rcmail.message_list, method:'key_down'});
     },
 
     /**
@@ -199,7 +208,7 @@ var recipient_to_contact = {
      *
      * Removes the row from dialog, if the contact has been added successfully
      * or shows validation errors.
-     * 
+     *
      * @param array $response Response array from server.
      *
      * @return void
@@ -224,6 +233,10 @@ var recipient_to_contact = {
 
             if ($('#new-contacts-dialog table tr').length == 1) {
                 $('#new-contacts-dialog').remove();
+
+                // restore rcube_list_widget's event listeners
+                rcube_event.add_listener({event:bw.opera?'keypress':'keydown', object: rcmail.message_list, method:'key_press'});
+                rcube_event.add_listener({event:'keydown', object:rcmail.message_list, method:'key_down'});
             }
         } else {
             // otherwise show all errors

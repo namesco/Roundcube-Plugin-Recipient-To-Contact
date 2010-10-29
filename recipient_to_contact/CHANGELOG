@@ -1,0 +1,13 @@
+Recipient To Contact Changelog:
+
+Release 0.1.1
+==============================
+- Fixed 'space' and 'backspace' keys malfunction in input fields
+- Added jQuery UI check
+- Added missing translation labels
+- Added Russian localization
+
+
+Release 0.1
+==============================
+- First public release

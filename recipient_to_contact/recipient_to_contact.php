@@ -7,7 +7,7 @@
  * @author    Vladimir Minakov <vminakov@names.co.uk>
  * @copyright 2009-2010 Namesco Limited
  * @license   http://www.gnu.org/licenses/gpl-3.0.txt GPLv3 License
- * @version   0.1
+ * @version   0.1.1
  */
 
 /**
@@ -21,7 +21,7 @@
  * @author    Vladimir Minakov <vminakov@names.co.uk>
  * @copyright 2009-2010 Namesco Limited
  * @license   http://www.gnu.org/licenses/gpl-3.0.txt GPLv3 License
- * @version   0.1
+ * @version   0.1.1
  */
 class recipient_to_contact extends rcube_plugin
 {
@@ -45,7 +45,7 @@ class recipient_to_contact extends rcube_plugin
      * @var array
      */
     protected $addressbooks = array();
-    
+
     /**
      * Plugins initializer.
      *
@@ -250,7 +250,7 @@ class recipient_to_contact extends rcube_plugin
         // return reponse to client
         $response = array('contacts' => $response);
         $this->rcmail->output->command('plugin.recipient_to_contact_add_contact_response', $response);
-        
+
     }
 
     /**
@@ -272,12 +272,12 @@ class recipient_to_contact extends rcube_plugin
 
             // checkbox element to change the status of the plugin
             $checkbox = new html_checkbox(
-                    array('name' => '_use_recipienttocontact', 
+                    array('name' => '_use_recipienttocontact',
                           'id' => $field_id,
                           'value' => 1,
                           'style' => 'margin-left: -300px')
             );
-            
+
             $args['blocks']['recipienttocontact']['options']['description'] = array(
                 'title' =>   html::div(null, Q($this->gettext('prefs_descr'))) . html::br(),
                 'content' => ''
@@ -328,7 +328,7 @@ class recipient_to_contact extends rcube_plugin
                 $args['prefs']['use_recipienttocontact'] = false;
             }
         }
-        
+
         return $args;
     }
 
