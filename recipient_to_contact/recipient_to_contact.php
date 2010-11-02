@@ -21,7 +21,7 @@
  * @author    Vladimir Minakov <vminakov@names.co.uk>
  * @copyright 2009-2010 Namesco Limited
  * @license   http://www.gnu.org/licenses/gpl-3.0.txt GPLv3 License
- * @version   0.1.1
+ * @version   0.1.2
  */
 class recipient_to_contact extends rcube_plugin
 {
@@ -56,7 +56,7 @@ class recipient_to_contact extends rcube_plugin
         $this->rcmail = rcmail::get_instance();
 
         // check that jQuery UI plugin is activated
-        if (array_search('jqueryui', $this->rcmail->config->get('plugins')) === false) {
+        if (in_array('jqueryui', $this->rcmail->config->get('plugins')) == false) {
             raise_error(array(
                 'code' => 500,
                 'type' => 'php',
@@ -191,6 +191,7 @@ class recipient_to_contact extends rcube_plugin
             $address_books = $this->addressbooks;
 
             $this->rcmail->session->remove('recipient_to_contact');
+            $this->rcmail->session->regenerate_id();
 
             $this->rcmail->output->command('plugin.recipient_to_contact_populate_dialog', array(
                 'contacts'      => $contacts,

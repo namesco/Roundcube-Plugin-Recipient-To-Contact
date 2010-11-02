@@ -9,7 +9,7 @@
  * @author    Vladimir Minakov <vminakov@names.co.uk>
  * @copyright 2009-2010 Namesco Limited
  * @license   http://www.gnu.org/licenses/gpl-3.0.txt GPLv3 License
- * @version   0.1.1
+ * @version   0.1.2
  */
 
 /**
@@ -24,8 +24,7 @@ rcmail.addEventListener('init', function() {
     var dialog = $('<div></div>').attr('id', 'new-contacts-dialog')
                  .appendTo(document.body);
 
-    // due to weirdness of session handling in roundcube, the request to fetch the contacts should be postponed
-    setTimeout("rcmail.http_post('plugin.recipient_to_contact_get_contacts', {})", 500);
+    rcmail.http_post('plugin.recipient_to_contact_get_contacts', {});
 });
 
 /**
@@ -129,7 +128,7 @@ var recipient_to_contact = {
         // verify that at least one checkbox has been selected. ignore the very first checkbox (Select All)
         var checked = $('#new-contacts-dialog').find('input:checked').not('#new-contacts-select-all');
         if (checked.length == 0) {
-            rcmail.display_message(rcmail.gettext('response_none_selected', 'recipient_to_contact'), 'error');
+            rcmail.display_message(rcmail.gettext('response_contact_not_selected', 'recipient_to_contact'), 'error');
             $('#new-contacts-dialog select option:eq(0)').attr('selected', 'selected');
             return;
         }
