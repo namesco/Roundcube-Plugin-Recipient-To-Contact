@@ -166,6 +166,7 @@ var recipient_to_contact = {
         if (is_valid) {
             var data = $(new_contacts).add($('#new-contacts-dialog select')).serialize();
 
+            rcmail.display_message(rcmail.gettext('loading'), 'loading', true);
             rcmail.addEventListener('plugin.recipient_to_contact_add_contact_response', recipient_to_contact.add_contact_handler);
             rcmail.http_post('plugin.recipient_to_contact_add_contact', data);
         }
@@ -194,6 +195,9 @@ var recipient_to_contact = {
     				}
         	}
         });
+
+        // pre select all checkboxes by default
+        $('#new-contacts-dialog input:checkbox').click();
 
         // rcmail_list_widget captures all keyboard events. Because of that you can't use keys like
         // Space or BackSpace in the input fields in modal dialog. Disable temporarily keyboard

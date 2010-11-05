@@ -12,6 +12,7 @@ $labels['dialog_contact_name'] = 'Отображаемое имя';
 $labels['dialog_email'] = 'Email адресс';
 $labels['dialog_addressbook'] = 'Адресная книга';
 $labels['dialog_add_selected'] = 'Добавить выбранные в: ';
+$labels['dialog_adding'] = 'Добавление контактов...';
 
 // various response messages
 $labels['response_name_empty'] = 'Пожалуйста введите имя контакта';

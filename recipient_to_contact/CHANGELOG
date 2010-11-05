@@ -1,5 +1,11 @@
 Recipient To Contact Changelog:
 
+Release 0.1.2
+==============================
+- Fixed session handling. JavaScript timeouts not needed anymore
+- Minor usability tweaks (pre-selected contacts, 'loading' dialog)
+- Updated translations
+
 Release 0.1.1
 ==============================
 - Fixed 'space' and 'backspace' keys malfunction in input fields

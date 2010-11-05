@@ -12,6 +12,7 @@ $labels['dialog_contact_name'] = 'Contact name';
 $labels['dialog_email'] = 'Email address';
 $labels['dialog_addressbook'] = 'Address book';
 $labels['dialog_add_selected'] = 'Add selected to: ';
+$labels['dialog_adding'] = 'Adding...';
 
 // various response messages
 $labels['response_name_empty'] = 'Please enter a contact name';
