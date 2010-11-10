@@ -118,6 +118,12 @@ class recipient_to_contact extends rcube_plugin
      */
     public function check_recipients($args)
     {
+        // don't process the sent message, if it's a 'Read Receipt' response
+        if (isset($args['headers']['Content-Type'])
+                && strpos($args['headers']['Content-Type'], 'report-type=disposition-notification') !== false) {
+            return $args;
+        }
+
         $rcube_imap = new rcube_imap(null);
 
         // build recipients array

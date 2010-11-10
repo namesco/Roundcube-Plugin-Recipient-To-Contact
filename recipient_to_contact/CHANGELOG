@@ -1,5 +1,9 @@
 Recipient To Contact Changelog:
 
+Release 0.1.3
+==============================
+- Fixed an issue with processing recipients on 'Read Receipt' messages
+
 Release 0.1.2
 ==============================
 - Fixed session handling. JavaScript timeouts not needed anymore
