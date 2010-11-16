@@ -3,6 +3,7 @@ Recipient To Contact Changelog:
 Release 0.1.3
 ==============================
 - Fixed an issue with processing recipients on 'Read Receipt' messages
+- Fixed missing argument warnings in add_contact()
 
 Release 0.1.2
 ==============================

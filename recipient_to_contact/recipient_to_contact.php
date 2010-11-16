@@ -209,11 +209,9 @@ class recipient_to_contact extends rcube_plugin
     /**
      * Adds contacts to selected addressbook.
      *
-     * @param array $args  Handler's default arguments.
-     *
      * @return void
      */
-    public function add_contact($args)
+    public function add_contact()
     {
         // response that will be sent to client
         $response = array();
