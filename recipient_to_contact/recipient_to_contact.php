@@ -194,7 +194,15 @@ class recipient_to_contact extends rcube_plugin
             $this->rcmail->output->command('plugin.recipient_to_contact_populate_dialog', array());
         } else {
             $contacts = $_SESSION['recipient_to_contact'];
-            $address_books = $this->addressbooks;
+            
+            // the array stores addresbooks (id and name, as well as corresponding groups)
+            $expanded_address_books = array();
+            $expanded_address_books['address_books'] = $this->addressbooks;
+
+            foreach ($expanded_address_books['address_books'] as $abook_id => $address_source) {
+                $address_book = $this->rcmail->get_address_book($abook_id);
+                $expanded_address_books['address_books'][$abook_id] = $address_book->list_groups();
+            }
 
             $this->rcmail->session->remove('recipient_to_contact');
             $this->rcmail->session->regenerate_id();
