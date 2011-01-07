@@ -7,7 +7,7 @@
  * @author    Vladimir Minakov <vminakov@names.co.uk>
  * @copyright 2009-2010 Namesco Limited
  * @license   http://www.gnu.org/licenses/gpl-3.0.txt GPLv3 License
- * @version   0.1.2
+ * @version   0.1.3
  */
 
 /**
@@ -21,7 +21,7 @@
  * @author    Vladimir Minakov <vminakov@names.co.uk>
  * @copyright 2009-2010 Namesco Limited
  * @license   http://www.gnu.org/licenses/gpl-3.0.txt GPLv3 License
- * @version   0.1.2
+ * @version   0.1.3
  */
 class recipient_to_contact extends rcube_plugin
 {
@@ -88,7 +88,8 @@ class recipient_to_contact extends rcube_plugin
             $this->add_hook('render_mailboxlist', array($this, 'register_dialog'));
 
             $this->register_action('plugin.recipient_to_contact_get_contacts', array($this, 'get_contacts'));
-            $this->register_action('plugin.recipient_to_contact_add_contact', array($this, 'add_contact'));
+            $this->register_action('plugin.recipient_to_contact_add_to_addressbook', array($this, 'add_to_addressbook'));
+            $this->register_action('plugin.recipient_to_contact_add_to_group', array($this, 'add_to_group'));
 
             // fetch addressbook sources. If no addressbooks set in the config file, use the same addressbooks
             // configured for autocompletition
@@ -197,12 +198,7 @@ class recipient_to_contact extends rcube_plugin
             
             // the array stores addresbooks (id and name, as well as corresponding groups)
             $expanded_address_books = array();
-            $expanded_address_books['address_books'] = $this->addressbooks;
-
-            foreach ($expanded_address_books['address_books'] as $abook_id => $address_source) {
-                $address_book = $this->rcmail->get_address_book($abook_id);
-                $expanded_address_books['address_books'][$abook_id] = $address_book->list_groups();
-            }
+            $address_books = $this->addressbooks;
 
             $this->rcmail->session->remove('recipient_to_contact');
             $this->rcmail->session->regenerate_id();
@@ -219,7 +215,7 @@ class recipient_to_contact extends rcube_plugin
      *
      * @return void
      */
-    public function add_contact()
+    public function add_to_addressbook()
     {
         // response that will be sent to client
         $response = array();
@@ -227,6 +223,9 @@ class recipient_to_contact extends rcube_plugin
         // get request data
         $contacts = get_input_value('_contacts', RCUBE_INPUT_POST);
         $addressbook_id = get_input_value('_addressbook', RCUBE_INPUT_POST);
+
+        // get addressbook object
+        $addressbook = $this->rcmail->get_address_book($addressbook_id);
 
         // iterate over each contact, validate and create new permament contacts
         foreach ($contacts as $key => $contact) {
@@ -245,25 +244,49 @@ class recipient_to_contact extends rcube_plugin
                 $response[$key]['message'] = Q($this->gettext('response_email_invalid'));
                 continue;
             }
-
-            $addressbook = $this->rcmail->get_address_book($addressbook_id);
-
+            
             // create new contact and check, if it was successful
-            if ($addressbook->insert(
-                    array('name' => $contact['_name'], 'email' => $contact['_email'])) == false) {
+            if (($contact_id = $addressbook->insert(
+                    array('name' => $contact['_name'], 'email' => $contact['_email']))) === false) {
                 $response[$key]['status'] = 'fail';
                 $response[$key]['message'] = Q($this->gettext('response_server_error'));
                 continue;
             }
 
+            $response[$key]['contact_id'] = $contact_id;
             $response[$key]['status'] = 'ok';
             $response[$key]['message'] = Q($this->gettext('response_confirm'));
         }
 
         // return reponse to client
-        $response = array('contacts' => $response);
+        $response = array(
+            'contacts' => $response,
+            'groups'   => $addressbook->list_groups());
         $this->rcmail->output->command('plugin.recipient_to_contact_add_contact_response', $response);
 
+    }
+
+    public function add_to_group()
+    {
+        // get request data
+        $contacts = get_input_value('_contacts', RCUBE_INPUT_POST);
+        $addressbook_id = get_input_value('_addressbook', RCUBE_INPUT_POST);
+        $group_id = get_input_value('_group', RCUBE_INPUT_POST);
+
+        // get addressbook and add contacs to a requested group
+        $addressbook = $this->rcmail->get_address_book($addressbook_id);
+        if ($addressbook->add_to_group($group_id, $contacts) == count($contacts)) {
+            $response = array(
+                'status'  => 'ok',
+                'message' => Q($this->gettext('response_confirm'))
+            );
+        } else {
+            $response = array(
+                'status'  => 'fail',
+                'message' => Q($this->gettext('response_server_error'))
+            );
+        }
+        $this->rcmail->output->command('plugin.recipient_to_contact_add_to_group_response', $response);
     }
 
     /**

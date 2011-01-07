@@ -9,7 +9,7 @@
  * @author    Vladimir Minakov <vminakov@names.co.uk>
  * @copyright 2009-2010 Namesco Limited
  * @license   http://www.gnu.org/licenses/gpl-3.0.txt GPLv3 License
- * @version   0.1.2
+ * @version   0.1.3
  */
 
 /**
@@ -21,8 +21,7 @@ rcmail.addEventListener('init', function() {
     rcmail.addEventListener('plugin.recipient_to_contact_populate_dialog', recipient_to_contact.populate_dialog);
 
     // create dialog container
-    var dialog = $('<div></div>').attr('id', 'new-contacts-dialog')
-                 .appendTo(document.body);
+    $('<div></div>').attr('id', 'new-contacts-dialog').appendTo(document.body);
 
     rcmail.http_post('plugin.recipient_to_contact_get_contacts', {});
 });
@@ -31,6 +30,8 @@ rcmail.addEventListener('init', function() {
  * Namespace for the recipient_to_contact plugin.
  */
 var recipient_to_contact = {
+
+    _response: [],
 
     /**
     * Generates dialog contect (form for adding new contacts), adds event listeners for ajax requests.
@@ -97,7 +98,7 @@ var recipient_to_contact = {
         $('<div></div>').css('text-align', 'center').css('margin-top', '15px')
         .text(rcmail.gettext('dialog_add_selected', 'recipient_to_contact')).append(
             function() {
-                var select = $('<select></select>').attr('name', '_addressbook')
+                var select = $('<select></select>').attr('name', '_addressbook').attr('id', 'addressbooks-select')
                 select.change(recipient_to_contact.add_new_contact);
                 select.append(
                     $('<option></option>').val('none').text('')
@@ -168,7 +169,7 @@ var recipient_to_contact = {
 
             rcmail.display_message(rcmail.gettext('loading'), 'loading', true);
             rcmail.addEventListener('plugin.recipient_to_contact_add_contact_response', recipient_to_contact.add_contact_handler);
-            rcmail.http_post('plugin.recipient_to_contact_add_contact', data);
+            rcmail.http_post('plugin.recipient_to_contact_add_to_addressbook', data);
         }
 
     },
@@ -187,12 +188,17 @@ var recipient_to_contact = {
             width: 'auto',
             title: rcmail.gettext('dialog_title', 'recipient_to_contact'),
             buttons: {
-    				Close: function() {
-    					$(this).dialog( "close" );
-                        // description below
-                        rcube_event.add_listener({event:bw.opera?'keypress':'keydown', object: rcmail.message_list, method:'key_press'});
-                        rcube_event.add_listener({event:'keydown', object:rcmail.message_list, method:'key_down'});
-    				}
+    			Close: function() {
+    				$('#addressbooks-select').attr('disabled', 'disabled');
+                    $('#new-contacts-dialog input:checkbox').attr('disabled', 'disabled');
+                        
+                    $('#groups-select').remove();
+
+                    $(this).dialog("close");
+                    // description below
+                    rcube_event.add_listener({event:bw.opera?'keypress':'keydown', object: rcmail.message_list, method:'key_press'});
+                    rcube_event.add_listener({event:'keydown', object:rcmail.message_list, method:'key_down'});
+    			}
         	}
         });
 
@@ -204,6 +210,31 @@ var recipient_to_contact = {
         // event catching and
         rcube_event.remove_listener({event:bw.opera?'keypress':'keydown', object: rcmail.message_list, method:'key_press'});
         rcube_event.remove_listener({event:'keydown', object:rcmail.message_list, method:'key_down'});
+    },
+
+    show_groups: function(response)
+    {
+        var select = $('<select></select>').attr('name', '_group').attr('id', 'groups-select')
+            .append(
+                $('<option></option>').text('').val('none')
+            )
+            .append(
+                $('<option></option>').text("Don't add to groups").val('0')
+            )
+            .change(function() {
+                recipient_to_contact.add_to_group($('#addressbooks-select option:selected').val());
+                console.log($('#addressbooks-select option:selected').val());
+            });
+
+        $.each(response.groups, function() {
+            select.append(
+                $('<option></option>').val(this.ID).text(this.name)
+            );
+        });
+
+        $('#addressbooks-select').parent().append(select);
+        $('#addressbooks-select').attr('disabled', 'disabled');
+        $('#new-contacts-dialog input:checkbox').attr('disabled', 'disabled');
     },
 
     /**
@@ -218,7 +249,50 @@ var recipient_to_contact = {
      */
     add_contact_handler: function(response)
     {
-        var error_messages = [];
+        recipient_to_contact._response = response;
+        if (response.groups.length > 0) {
+            recipient_to_contact.show_groups(response);
+        } else {
+            recipient_to_contact.handle_response(response);
+        }
+    },
+
+    add_to_group: function(addressbook_id) {
+        if ($('#groups-select option:selected').val() == '0') {
+            $('#new-contacts-dialog').dialog("close");
+            return;
+        }
+
+        if ($('#groups-select option:selected').val() == 'none') {
+            return;
+        }
+
+        var data = {};
+        data._addressbook = addressbook_id;
+        data._group = $('#groups-select option:selected').val();
+        data._contacts = $(recipient_to_contact._response['contacts']).map(function() {
+            return this.contact_id;
+        }).get();
+
+        rcmail.addEventListener('plugin.recipient_to_contact_add_to_group_response', recipient_to_contact.add_to_group_handler);
+        rcmail.http_post('plugin.recipient_to_contact_add_to_group', $.param(data));
+    },
+
+    add_to_group_handler: function(response)
+    {
+        if (response.status == 'fail') {
+            rcmail.display_message(response.message, 'error');
+        } else {
+            rcmail.display_message(rcmail.gettext('response_confirm', 'recipient_to_contact'), 'confirmation');
+
+            // remove added contacts from table
+            //$.each(recipient_to_contact._addressbook_response, function(key, contact))
+        }
+        recipient_to_contact.handle_response(response);
+    },
+
+    handle_response: function(response) {
+         var error_messages = [];
 
         // iterate over contacts recieved from server.
         // Remove rows from table, which have been added successfully or populate error_messages array.
