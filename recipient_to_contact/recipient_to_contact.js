@@ -20,6 +20,11 @@
 rcmail.addEventListener('init', function() {
     rcmail.addEventListener('plugin.recipient_to_contact_populate_dialog', recipient_to_contact.populate_dialog);
 
+    // enable compatibility mode with keyboard_shortcuts plugin
+    if (rcmail.env.keyboard_shortcuts != undefined && rcmail.env.keyboard_shortcuts == true) {
+        recipient_to_contact.withShortcuts = true;
+    }
+
     // create dialog container
     var dialog = $('<div></div>').attr('id', 'new-contacts-dialog')
                  .appendTo(document.body);
@@ -32,6 +37,13 @@ rcmail.addEventListener('init', function() {
  */
 var recipient_to_contact = {
 
+    /**
+     * Keyboard_shortcuts compatibility mode.
+     *
+     * @var bool
+     */
+    withShortcuts: false,
+    
     /**
     * Generates dialog contect (form for adding new contacts), adds event listeners for ajax requests.
     *
@@ -48,7 +60,7 @@ var recipient_to_contact = {
         if (response.length == 0) {
             return;
         }
-
+        
         // create the table and table header
         var table = $('<table></table>').append(
             $('<tr>').append("<td>" + rcmail.gettext('dialog_contact_name', 'recipient_to_contact') + "</td>"
@@ -188,7 +200,13 @@ var recipient_to_contact = {
             title: rcmail.gettext('dialog_title', 'recipient_to_contact'),
             buttons: {
     				Close: function() {
-    					$(this).dialog( "close" );
+    					$(this).dialog("close");
+
+                        // re-enable keyboard_shortcuts plugin
+                        if (recipient_to_contact.withShortcuts) {
+                            rcmail.env.keyboard_shortcuts = true;
+                        }
+
                         // description below
                         rcube_event.add_listener({event:bw.opera?'keypress':'keydown', object: rcmail.message_list, method:'key_press'});
                         rcube_event.add_listener({event:'keydown', object:rcmail.message_list, method:'key_down'});
@@ -198,6 +216,11 @@ var recipient_to_contact = {
 
         // pre select all checkboxes by default
         $('#new-contacts-dialog input:checkbox').click();
+
+        // re-enable keyboard shortcuts
+        if (recipient_to_contact.withShortcuts) {
+            rcmail.env.keyboard_shortcuts = false;
+        }
 
         // rcmail_list_widget captures all keyboard events. Because of that you can't use keys like
         // Space or BackSpace in the input fields in modal dialog. Disable temporarily keyboard
@@ -236,6 +259,11 @@ var recipient_to_contact = {
 
             if ($('#new-contacts-dialog table tr').length == 1) {
                 $('#new-contacts-dialog').remove();
+
+                // re-enable keyboard_shortcuts plugin
+                if (recipient_to_contact.withShortcuts) {
+                   rcmail.env.keyboard_shortcuts = true;
+                }
 
                 // restore rcube_list_widget's event listeners
                 rcube_event.add_listener({event:bw.opera?'keypress':'keydown', object: rcmail.message_list, method:'key_press'});
