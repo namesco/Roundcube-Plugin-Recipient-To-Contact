@@ -9,6 +9,10 @@ $labels['prefs_descr'] = 'Плагин отображает форму для б
 // labels used in dialog in frontend
 $labels['dialog_title'] = 'Сообщение было отправлено следующим адресатам:';
 $labels['dialog_contact_name'] = 'Отображаемое имя';
+$labels['dialog_contact_firstname'] = 'Firstname';
+$labels['dialog_contact_surname'] = 'Surname';
+$labels['dialog_contact_addressbook'] = 'Addressbook:';
+$labels['dialog_contact_group'] = 'Group: ';
 $labels['dialog_email'] = 'Email адресс';
 $labels['dialog_addressbook'] = 'Адресная книга';
 $labels['dialog_add_selected'] = 'Добавить выбранные в: ';
