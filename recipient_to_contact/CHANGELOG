@@ -1,5 +1,10 @@
 Recipient To Contact Changelog:
 
+Release 0.2
+==============================
+- Added capability to select a group when you add a new contact
+- Dialog box aspect changed: added Save button
+
 Release 0.1.3
 ==============================
 - Fixed an issue with processing recipients on 'Read Receipt' messages
