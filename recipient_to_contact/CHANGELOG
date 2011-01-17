@@ -4,6 +4,7 @@ Release 0.2
 ==============================
 - Added capability to select a group when you add a new contact
 - Dialog box aspect changed: added Save button
+- TODO: add compatibility with global_addressbook; test it with roundcube 0.5
 
 Release 0.1.3
 ==============================
