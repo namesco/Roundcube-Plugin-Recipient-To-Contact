@@ -199,7 +199,6 @@ class recipient_to_contact extends rcube_plugin
             $address_books = $this->addressbooks;
 
             $this->rcmail->session->remove('recipient_to_contact');
-            $this->rcmail->session->regenerate_id();
 
             $this->rcmail->output->command('plugin.recipient_to_contact_populate_dialog', array(
                 'contacts'      => $contacts,
