@@ -14,8 +14,8 @@ Features:
 
 ## Requirements
 
-1. Plugin is maintained against Roundcube 0.7 and later
-2. jQuery UI plugin is required, which can be obtained from http://underwa.ter.net/roundcube-plugins or http://myroundcube.googlecode.com
+1. Plugin is maintained against Roundcube 0.7 and later.
+2. jQuery UI plugin is required, which can be obtained from [http://underwa.ter.net/roundcube-plugins]() or [http://myroundcube.googlecode.com]().
 
 ## Installation
 
