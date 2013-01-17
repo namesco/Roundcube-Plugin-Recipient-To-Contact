@@ -256,6 +256,7 @@ var recipient_to_contact = {
                 // restore rcube_list_widget's event listeners
                 rcube_event.add_listener({event:bw.opera?'keypress':'keydown', object: rcmail.message_list, method:'key_press'});
                 rcube_event.add_listener({event:'keydown', object:rcmail.message_list, method:'key_down'});
+                recipient_to_contact.end();
             }
         } else {
             // otherwise show all errors
@@ -264,6 +265,10 @@ var recipient_to_contact = {
             });
         }
 
+    },
+
+    end: function() {
+        rcmail.http_post('plugin.recipient_to_contact_get_contacts', {});
     },
 
     /**
@@ -286,6 +291,8 @@ var recipient_to_contact = {
                     // description below
                     rcube_event.add_listener({event:bw.opera?'keypress':'keydown', object: rcmail.message_list, method:'key_press'});
                     rcube_event.add_listener({event:'keydown', object:rcmail.message_list, method:'key_down'});
+                    $('#new-contacts-dialog').remove();
+                    recipient_to_contact.end();
                 }
             }
         });
