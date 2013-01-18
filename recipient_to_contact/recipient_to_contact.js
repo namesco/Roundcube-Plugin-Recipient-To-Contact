@@ -68,7 +68,7 @@ var recipient_to_contact = {
                            + "<td>" + rcmail.gettext('dialog_contact_firstname', 'recipient_to_contact') + "</td>"
                            + "<td>" + rcmail.gettext('dialog_contact_surname', 'recipient_to_contact') + "</td>"
                            + "<td>*" + rcmail.gettext('dialog_contact_addressbook', 'recipient_to_contact') + "</td>"
-                           + "<td>" + rcmail.gettext('dialog_contact_group', 'recipient_to_contact') + "</td>"
+                           + "<td class=\"group\">" + rcmail.gettext('dialog_contact_group', 'recipient_to_contact') + "</td>"
                            + "<td><input type='checkbox' id='new-contacts-select-all' /></td>")
         ).appendTo($('#new-contacts-dialog'));
 
@@ -117,7 +117,7 @@ var recipient_to_contact = {
             ).appendTo(row);
 
             // generate table cell for contact's group
-            $('<td></td>').append(
+            $('<td class="group"></td>').append(
                 function() {
                     var select = $('<select></select>').attr('name', '_contacts[' + key + '][_group]').attr('id','select_groups' + key);
                     return select;
@@ -285,7 +285,6 @@ var recipient_to_contact = {
             width: 'auto',
             title: rcmail.gettext('dialog_title', 'recipient_to_contact'),
             buttons: {
-                Save: recipient_to_contact.save_contacts,
                 Close: function() {
                     $(this).dialog( "close" );
                     // description below
@@ -294,6 +293,7 @@ var recipient_to_contact = {
                     $('#new-contacts-dialog').remove();
                     recipient_to_contact.end();
                 }
+                Save: recipient_to_contact.save_contacts,
             }
         });
 
@@ -341,17 +341,22 @@ var recipient_to_contact = {
      */
     get_addressbook_groups_handler: function(response)
     {
-        // iterate over groups received from server and add them to groups select box, but before we empty select box
-        $('#select_groups' + response.key).empty();
-        $('#select_groups' + response.key).append($('<option></option>').val('none').text(''));     // for "no group"
-        $.each(response.groups, function(key, group) {
-            $('#select_groups' + response.key).append(
-                $('<option></option>').val(group['ID']).text(group['name'])
-            );
-        });
+        if (response.groups.length === 0) {
+            // Remove the option if there are no groups.
+            $('#select_groups' + response.key).remove();
+            $('#new-contacts-dialog').find('td.group').remove();
+        } else {
+            // iterate over groups received from server and add them to groups select box, but before we empty select box
+            $('#select_groups' + response.key).empty();
+            $('#select_groups' + response.key).append($('<option></option>').val('none').text(''));     // for "no group"
+            $.each(response.groups, function(key, group) {
+                $('#select_groups' + response.key).append(
+                    $('<option></option>').val(group['ID']).text(group['name'])
+                );
+            });
+        }
 
         // disable the "loading" message
         rcmail.display_message(rcmail.gettext('loading'), 'loading', false);
-
     }
 }
