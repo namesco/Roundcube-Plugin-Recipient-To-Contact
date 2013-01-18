@@ -4,24 +4,25 @@
  *
  * @category  Roundcube
  * @package   Plugin
- * @author    Vladimir Minakov <vminakov@names.co.uk>, Gianfelice Catini <info@gianfelicecatini.it>
- * @copyright 2009-2010 Namesco Limited
+ * @author    Vladimir Minakov <vminakov@names.co.uk>
+ *            Gianfelice Catini <info@gianfelicecatini.it>
+ *            Mat Gadd <mgadd@names.co.uk>
+ * @copyright 2009-2013 Namesco Limited
  * @license   http://www.gnu.org/licenses/gpl-3.0.txt GPLv3 License
- * @version   0.2
  */
 
 /**
- * Short description of new_contacts
+ * Plugin allows users to add new contacts to address books.
  *
- * If a user sends an email to recipients, which are not in addressbooks, the plugins allows users
- * to selectively add those recipients to existing addressbook.
+ * If a user sends an email to recipients which are not in any address books,
+ * the plugins allows users to selectively add those recipients to an existing
+ * address book.
  *
- * @category  Roundcube
- * @package   Plugin
- * @author    Vladimir Minakov <vminakov@names.co.uk>, Gianfelice Catini <info@gianfelicecatini.it>
- * @copyright 2009-2010 Namesco Limited
- * @license   http://www.gnu.org/licenses/gpl-3.0.txt GPLv3 License
- * @version   0.2
+ * @category Roundcube
+ * @package  Plugin
+ * @author   Vladimir Minakov <vminakov@names.co.uk>
+ *           Gianfelice Catini <info@gianfelicecatini.it>
+ *           Mat Gadd <mgadd@names.co.uk>
  */
 class recipient_to_contact extends rcube_plugin
 {
@@ -66,7 +67,7 @@ class recipient_to_contact extends rcube_plugin
                              . "jQuery UI plugin is not installed/activated"
             ), true, false);
             return;
-		}
+        }
 
         // load configuration
         if (file_exists($this->home . '/config/config.inc.php')) {
@@ -102,7 +103,7 @@ class recipient_to_contact extends rcube_plugin
                 $this->addressbooks = $this->get_addressbooks($enabled_addressbooks);
             }
         }
-        
+
         // hooks for preferences section
         $this->add_hook('preferences_list', array($this, 'prefs_content'));
         $this->add_hook('preferences_sections_list', array($this, 'prefs_section_link'));
@@ -316,12 +317,12 @@ class recipient_to_contact extends rcube_plugin
      */
     public function prefs_section_link($args)
     {
-		$args['list']['recipienttocontact'] = array(
+        $args['list']['recipienttocontact'] = array(
             'id' => 'recipienttocontact',
-			'section' => Q($this->gettext('prefs_title'))
+            'section' => Q($this->gettext('prefs_title'))
         );
 
-		return $args;
+        return $args;
     }
 
     /**
