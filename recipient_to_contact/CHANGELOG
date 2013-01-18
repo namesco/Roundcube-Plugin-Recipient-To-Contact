@@ -1,5 +1,10 @@
 Recipient To Contact Changelog:
 
+Release 0.3
+==============================
+- New maintainer (and first release in over 2 years, sorry).
+- Fix users getting logged out when using the plugin (thanks to contributors and bug reporters).
+
 Release 0.2
 ==============================
 - Added capability to select a group when you add a new contact
