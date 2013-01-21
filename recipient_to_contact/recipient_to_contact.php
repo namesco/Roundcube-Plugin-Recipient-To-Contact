@@ -204,6 +204,7 @@ class recipient_to_contact extends rcube_plugin
             $this->rcmail->output->command('plugin.recipient_to_contact_populate_dialog', array(
                 'contacts'      => $contacts,
                 'address_books' => $address_books,
+                'use_groups'    => $this->rcmail->config->get('recipient_to_contact_use_groups'),
             ));
         }
     }

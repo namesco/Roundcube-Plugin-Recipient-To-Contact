@@ -61,16 +61,19 @@ var recipient_to_contact = {
             return;
         }
 
+        var table_rows = [];
+        table_rows.push('<td>*' + rcmail.gettext('dialog_contact_name', 'recipient_to_contact') + '</td>');
+        table_rows.push('<td>*' + rcmail.gettext('dialog_email', 'recipient_to_contact') + '</td>');
+        table_rows.push('<td>' + rcmail.gettext('dialog_contact_firstname', 'recipient_to_contact') + '</td>');
+        table_rows.push('<td>' + rcmail.gettext('dialog_contact_surname', 'recipient_to_contact') + '</td>');
+        table_rows.push('<td>*' + rcmail.gettext('dialog_contact_addressbook', 'recipient_to_contact') + '</td>');
+        if (response.use_groups) {
+            table_rows.push('<td>' + rcmail.gettext('dialog_contact_group', 'recipient_to_contact') + '</td>');
+        }
+        table_rows.push('<td><input type="checkbox" id="new-contacts-select-all" /></td>');
+
         // create the table and table header
-        var table = $('<table></table>').append(
-            $('<tr>').append("<td>*" + rcmail.gettext('dialog_contact_name', 'recipient_to_contact') + "</td>"
-                           + "<td>*" + rcmail.gettext('dialog_email', 'recipient_to_contact') + "</td>"
-                           + "<td>" + rcmail.gettext('dialog_contact_firstname', 'recipient_to_contact') + "</td>"
-                           + "<td>" + rcmail.gettext('dialog_contact_surname', 'recipient_to_contact') + "</td>"
-                           + "<td>*" + rcmail.gettext('dialog_contact_addressbook', 'recipient_to_contact') + "</td>"
-                           + "<td class=\"group\">" + rcmail.gettext('dialog_contact_group', 'recipient_to_contact') + "</td>"
-                           + "<td><input type='checkbox' id='new-contacts-select-all' /></td>")
-        ).appendTo($('#new-contacts-dialog'));
+        var table = $('<table></table>').append(table_rows.join('\n')).appendTo($('#new-contacts-dialog'));
 
 
         // iterate over new contacts contacts and generate a table row for each contact
@@ -117,12 +120,14 @@ var recipient_to_contact = {
             ).appendTo(row);
 
             // generate table cell for contact's group
-            $('<td class="group"></td>').append(
-                function() {
-                    var select = $('<select></select>').attr('name', '_contacts[' + key + '][_group]').attr('id','select_groups' + key);
-                    return select;
-                }()
-            ).appendTo(row);
+            if (response.use_groups) {
+                $('<td></td>').append(
+                    function() {
+                        var select = $('<select></select>').attr('name', '_contacts[' + key + '][_group]').attr('id','select_groups' + key);
+                        return select;
+                    }()
+                ).appendTo(row);
+            }
 
             // generate checkbox for each contact (selected means "I want to save it")
             $('<td></td>').append(
@@ -341,20 +346,14 @@ var recipient_to_contact = {
      */
     get_addressbook_groups_handler: function(response)
     {
-        if (response.groups.length === 0) {
-            // Remove the option if there are no groups.
-            $('#select_groups' + response.key).remove();
-            $('#new-contacts-dialog').find('td.group').remove();
-        } else {
-            // iterate over groups received from server and add them to groups select box, but before we empty select box
-            $('#select_groups' + response.key).empty();
-            $('#select_groups' + response.key).append($('<option></option>').val('none').text(''));     // for "no group"
-            $.each(response.groups, function(key, group) {
-                $('#select_groups' + response.key).append(
-                    $('<option></option>').val(group['ID']).text(group['name'])
-                );
-            });
-        }
+        // iterate over groups received from server and add them to groups select box, but before we empty select box
+        $('#select_groups' + response.key).empty();
+        $('#select_groups' + response.key).append($('<option></option>').val('none').text(''));     // for "no group"
+        $.each(response.groups, function(key, group) {
+            $('#select_groups' + response.key).append(
+                $('<option></option>').val(group['ID']).text(group['name'])
+            );
+        });
 
         // disable the "loading" message
         rcmail.display_message(rcmail.gettext('loading'), 'loading', false);
