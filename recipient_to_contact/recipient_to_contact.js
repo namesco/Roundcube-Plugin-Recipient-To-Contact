@@ -6,7 +6,9 @@
  *
  * @category  RoundCube
  * @package   Plugin
- * @author    Vladimir Minakov <vminakov@names.co.uk>, Gianfelice Catini <info@gianfelicecatini.it>
+ * @author    Vladimir Minakov <vminakov@names.co.uk>
+ *            Gianfelice Catini <info@gianfelicecatini.it>
+ *            Mat Gadd <mgadd@names.co.uk>
  * @copyright 2009-2010 Namesco Limited
  * @license   http://www.gnu.org/licenses/gpl-3.0.txt GPLv3 License
  * @version   0.2
@@ -136,8 +138,8 @@ var recipient_to_contact = {
 
             row.appendTo(table);
 
-            // bind a function to onChange event on addressbook select: the function takes from DB all group of the selected
-            // addressbook
+            // bind a function to onChange event on addressbook select: the function takes
+            // from DB all group of the selected addressbook
             $('#select_address_book' + key).bind('change', {k: key}, recipient_to_contact.get_addressbook_groups);
             $('#select_address_book' + key).trigger('change');
         });
