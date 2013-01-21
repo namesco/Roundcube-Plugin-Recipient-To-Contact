@@ -4,6 +4,8 @@ Release 0.3
 ==============================
 - New maintainer (and first release in over 2 years, sorry).
 - Fix users getting logged out when using the plugin (thanks to contributors and bug reporters).
+- Make the contact group feature optional, and disabled by default.
+- Tidy up the localization files, remove obsolete keys.
 
 Release 0.2
 ==============================
