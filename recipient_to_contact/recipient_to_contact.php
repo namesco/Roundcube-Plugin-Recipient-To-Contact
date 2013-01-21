@@ -69,11 +69,8 @@ class recipient_to_contact extends rcube_plugin
             return;
         }
 
-        // load configuration
         if (file_exists($this->home . '/config/config.inc.php')) {
             $this->load_config('config/config.inc.php');
-        } else {
-            $this->load_config('config/config.inc.php.dist');
         }
 
         $is_enabled = $this->rcmail->config->get('use_recipienttocontact', 'default');
