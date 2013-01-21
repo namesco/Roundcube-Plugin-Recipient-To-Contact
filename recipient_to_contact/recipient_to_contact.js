@@ -63,19 +63,19 @@ var recipient_to_contact = {
             return;
         }
 
-        var table_rows = [];
-        table_rows.push('<td>*' + rcmail.gettext('dialog_contact_name', 'recipient_to_contact') + '</td>');
-        table_rows.push('<td>*' + rcmail.gettext('dialog_email', 'recipient_to_contact') + '</td>');
-        table_rows.push('<td>' + rcmail.gettext('dialog_contact_firstname', 'recipient_to_contact') + '</td>');
-        table_rows.push('<td>' + rcmail.gettext('dialog_contact_surname', 'recipient_to_contact') + '</td>');
-        table_rows.push('<td>*' + rcmail.gettext('dialog_contact_addressbook', 'recipient_to_contact') + '</td>');
+        var table_cells = [];
+        table_cells.push('<td>*' + rcmail.gettext('dialog_contact_name', 'recipient_to_contact') + '</td>');
+        table_cells.push('<td>*' + rcmail.gettext('dialog_email', 'recipient_to_contact') + '</td>');
+        table_cells.push('<td>' + rcmail.gettext('dialog_contact_firstname', 'recipient_to_contact') + '</td>');
+        table_cells.push('<td>' + rcmail.gettext('dialog_contact_surname', 'recipient_to_contact') + '</td>');
+        table_cells.push('<td>*' + rcmail.gettext('dialog_contact_addressbook', 'recipient_to_contact') + '</td>');
         if (response.use_groups) {
-            table_rows.push('<td>' + rcmail.gettext('dialog_contact_group', 'recipient_to_contact') + '</td>');
+            table_cells.push('<td>' + rcmail.gettext('dialog_contact_group', 'recipient_to_contact') + '</td>');
         }
-        table_rows.push('<td><input type="checkbox" id="new-contacts-select-all" /></td>');
+        table_cells.push('<td><input type="checkbox" id="new-contacts-select-all" /></td>');
 
         // create the table and table header
-        var table = $('<table></table>').append(table_rows.join('\n')).appendTo($('#new-contacts-dialog'));
+        var table = $('<table></table>').append($('<tr />').append(table_cells.join('\n'))).appendTo($('#new-contacts-dialog'));
 
 
         // iterate over new contacts contacts and generate a table row for each contact
