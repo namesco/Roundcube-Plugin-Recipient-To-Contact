@@ -299,8 +299,8 @@ var recipient_to_contact = {
                     rcube_event.add_listener({event:'keydown', object:rcmail.message_list, method:'key_down'});
                     $('#new-contacts-dialog').remove();
                     recipient_to_contact.end();
-                }
-                Save: recipient_to_contact.save_contacts,
+                },
+                Save: recipient_to_contact.save_contacts
             }
         });
 
