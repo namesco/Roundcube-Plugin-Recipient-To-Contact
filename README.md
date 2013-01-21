@@ -38,6 +38,10 @@ A list of address book IDs, which would be used for searching existing contacts.
 
 Whether the plugin is enabled or disabled for users by default. If set to true, the plugin is enabled and users can disable it through settings menu.
 
+`recipient_to_contact_use_groups`
+
+Whether to enable contact groups (and show the UI for selecting them) or not. Defaults to false.
+
 ## License
 
 This plugin is distributed under the GPLv3 license. Please see http://www.gnu.org/licenses/gpl-3.0.txt for the complete license.
