@@ -13,3 +13,10 @@ $rcmail_config['recipient_to_contact_addressbooks'] = array();
  * If set to true, the plugin is enabled and users can disable it through settings menu.
  */
 $rcmail_config['recipient_to_contact_enabled_by_default'] = true;
+
+/**
+ * Whether the groups feature is enabled or not.
+ *
+ * If set to true, the contact group dropdown is shown in the dialog.
+ */
+$rcmail_config['recipient_to_contact_use_groups'] = false;
