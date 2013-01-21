@@ -14,15 +14,10 @@ $labels['dialog_contact_surname'] = 'Nachname';
 $labels['dialog_contact_addressbook'] = 'Adressbuch:';
 $labels['dialog_contact_group'] = 'Gruppe: ';
 $labels['dialog_email'] = 'E-Mail-Adresse';
-$labels['dialog_addressbook'] = 'Adressbuch';
-$labels['dialog_add_selected'] = 'Auswahl hinzufügen zu: ';
-$labels['dialog_adding'] = 'Hinzufügen...';
 
 // various response messages
 $labels['response_name_empty'] = 'Bitte geben Sie einen Kontaktnamen ein';
 $labels['response_email_invalid'] = 'Bitte geben Sie eine gültige E-Mail-Adresse ein';
 $labels['response_server_error'] = 'Server-Fehler';
-$labels['response_addressbook_not_selected'] = 'Bitte wählen Sie ein Adressbuch';
 $labels['response_contact_not_selected'] = 'Bitte wählen Sie mindestens einen Kontakt zum Hinzufügen';
 $labels['response_confirm'] = 'Kontakt erfolgreich hinzugefügt';
-?>
