@@ -360,7 +360,7 @@ class recipient_to_contact extends rcube_plugin
      *
      * @return array Addressbooks sources.
      */
-    protected function get_addressbooks(array $ids, $writable = false)
+    protected function get_addressbooks(array $ids, $writable = true)
     {
         $ids = array_flip($ids);
 
