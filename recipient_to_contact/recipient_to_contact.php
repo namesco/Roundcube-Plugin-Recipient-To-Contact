@@ -356,7 +356,7 @@ class recipient_to_contact extends rcube_plugin
      * @param array $ids      IDs of addressbooks.
      * @param bool  $writable If set to true, fetches only writable addressbooks.
      *
-     * @see rcmail::get_address_sources().
+     * @see rcmail::get_address_sources([ [writable], [unhide] ])
      *
      * @return array Addressbooks sources.
      */
@@ -369,7 +369,7 @@ class recipient_to_contact extends rcube_plugin
             unset($ids['sql']);
             $ids[0] = 0;
         }
-        $all_addresbooks = $this->rcmail->get_address_sources();
+        $all_addresbooks = $this->rcmail->get_address_sources($writable);
 
         // return standard output from get_address_sources including only addressbooks specified in $ids
         return array_intersect_key($all_addresbooks, $ids);
