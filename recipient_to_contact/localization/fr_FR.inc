@@ -2,12 +2,12 @@
 $labels = array();
 
 // labels used in settings view
-$labels['prefs_title']  = 'Ajout des destinataires à la liste des contacts';
+$labels['prefs_title']  = 'Contacts vers carnet';
 $labels['prefs_option']  = 'Utiliser le plugin';
-$labels['prefs_descr'] = 'Affiche un formulaire pour ajouter les nouveaux destinataires à la liste des contacts.';
+$labels['prefs_descr'] = 'Affiche un formulaire pour ajouter les nouveaux contacts au carnet d\'adresses.';
 
 // labels used in dialog in frontend
-$labels['dialog_title'] = 'Votre message a été envoyé aux destinataires suivants:';
+$labels['dialog_title'] = 'Votre message a été envoyé aux contacts suivants:';
 $labels['dialog_contact_name'] = 'Nom du contact';
 $labels['dialog_contact_firstname'] = 'Prénom';
 $labels['dialog_contact_surname'] = 'Nom';
