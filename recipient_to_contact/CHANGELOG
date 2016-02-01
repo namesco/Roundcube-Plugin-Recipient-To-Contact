@@ -1,5 +1,10 @@
 Recipient To Contact Changelog:
 
+Release 0.3.1
+==============================
+- Added pt_BR language support
+- Bugfix: only list writeable addressbooks
+
 Release 0.3
 ==============================
 - New maintainer (and first release in over 2 years, sorry).

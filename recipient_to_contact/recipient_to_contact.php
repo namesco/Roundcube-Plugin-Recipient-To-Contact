@@ -7,7 +7,9 @@
  * @author    Vladimir Minakov <vminakov@names.co.uk>
  *            Gianfelice Catini <info@gianfelicecatini.it>
  *            Mat Gadd <mgadd@names.co.uk>
+ *            Eliton Claus <internero@gmail.com>
  * @copyright 2009-2013 Namesco Limited
+ * 	          2016      Eliton Claus
  * @license   http://www.gnu.org/licenses/gpl-3.0.txt GPLv3 License
  */
 
@@ -23,6 +25,7 @@
  * @author   Vladimir Minakov <vminakov@names.co.uk>
  *           Gianfelice Catini <info@gianfelicecatini.it>
  *           Mat Gadd <mgadd@names.co.uk>
+ *           Eliton Claus <internero@gmail.com>
  */
 class recipient_to_contact extends rcube_plugin
 {
@@ -95,14 +98,13 @@ class recipient_to_contact extends rcube_plugin
 
             // fetch addressbook sources. If no addressbooks set in the config file, use the same addressbooks
             // configured for autocompletition
-            $enabled_addressbooks = $this->rcmail->config->get('recipient_to_contact_addressbooks');
-            if (empty($enabled_addressbooks)) {
-                $this->addressbooks = $this->get_addressbooks(
-                        $this->rcmail->config->get('autocomplete_addressbooks'));
-            } else {
-                $this->addressbooks = $this->get_addressbooks($enabled_addressbooks);
-            }
-        }
+			$enabled_addressbooks = $this->rcmail->config->get('recipient_to_contact_addressbooks');
+			if (empty($enabled_addressbooks)) {
+				$this->addressbooks = $this->get_addressbooks($this->rcmail->config->get('autocomplete_addressbooks'));
+			} else {
+				$this->addressbooks = $this->get_addressbooks($enabled_addressbooks);
+			}
+		}
 
         // hooks for preferences section
         $this->add_hook('preferences_list', array($this, 'prefs_content'));
@@ -229,14 +231,14 @@ class recipient_to_contact extends rcube_plugin
             // visualization name cannot be empty
             if (empty($contact['_name'])) {
                 $response[$key]['status'] = 'fail';
-                $response[$key]['message'] = Q($this->gettext('response_name_empty'));
+                $response[$key]['message'] = rcube::Q($this->gettext('response_name_empty'));
                 continue;
             }
 
             // email should be valid
             if (!check_email($contact['_email'], false)) {
                 $response[$key]['status'] = 'fail';
-                $response[$key]['message'] = Q($this->gettext('response_email_invalid'));
+                $response[$key]['message'] = rcube::Q($this->gettext('response_email_invalid'));
                 continue;
             }
 
@@ -248,7 +250,7 @@ class recipient_to_contact extends rcube_plugin
                         'firstname' => $contact['_firstname'], 'surname' => $contact['_surname']));
             if ($id == false) {
                 $response[$key]['status'] = 'fail';
-                $response[$key]['message'] = Q($this->gettext('response_server_error'));
+                $response[$key]['message'] = rcube::Q($this->gettext('response_server_error'));
                 continue;
             }
 
@@ -260,7 +262,7 @@ class recipient_to_contact extends rcube_plugin
 
             // all ok
             $response[$key]['status'] = 'ok';
-            $response[$key]['message'] = Q($this->gettext('response_confirm'));
+            $response[$key]['message'] = rcube::Q($this->gettext('response_confirm'));
         }
 
         // return reponse to client
@@ -294,16 +296,17 @@ class recipient_to_contact extends rcube_plugin
                           'style' => 'margin-left: -300px')
             );
 
-            $args['blocks']['recipienttocontact']['options']['description'] = array(
-                'title' =>   html::div(null, Q($this->gettext('prefs_descr'))) . html::br(),
-                'content' => ''
-            );
-
-            $args['blocks']['recipienttocontact']['name'] = $this->gettext('prefs_title');
+            $args['blocks']['recipienttocontact']['name'] = rcube::Q($this->gettext('prefs_title'));
             $args['blocks']['recipienttocontact']['options']['use_subscriptions'] = array(
-                'title' => html::label($field_id, Q($this->gettext('prefs_option'))),
-                'content' => $checkbox->show($use_recipienttocontact ? 1 : 0),
+                'title' => html::label($field_id, rcube::Q($this->gettext('prefs_option'))),
+                'content' => $checkbox->show($use_recipienttocontact ? 1 : 0)
             );
+			
+			$args['blocks']['recipienttocontact']['options']['description'] = array(
+				'title' =>   html::div(null, rcube::Q($this->gettext('prefs_descr'))) . html::br(),
+				'content' => ''
+            );
+			
         }
 
         return $args;
@@ -320,7 +323,7 @@ class recipient_to_contact extends rcube_plugin
     {
         $args['list']['recipienttocontact'] = array(
             'id' => 'recipienttocontact',
-            'section' => Q($this->gettext('prefs_title'))
+            'section' => rcube::Q($this->gettext('prefs_title'))
         );
 
         return $args;
@@ -360,7 +363,7 @@ class recipient_to_contact extends rcube_plugin
      *
      * @return array Addressbooks sources.
      */
-    protected function get_addressbooks(array $ids, $writable = false)
+    protected function get_addressbooks(array $ids, $writable = true)
     {
         $ids = array_flip($ids);
 
