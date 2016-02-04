@@ -285,23 +285,35 @@ var recipient_to_contact = {
      */
     show_dialog: function()
     {
+		
         $('#new-contacts-dialog').dialog({
             autoResize: true,
             modal: true,
             resizable: false,
             width: 'auto',
             title: rcmail.gettext('dialog_title', 'recipient_to_contact'),
-            buttons: {
-                Close: function() {
-                    $(this).dialog( "close" );
-                    // description below
-                    rcube_event.add_listener({event:bw.opera?'keypress':'keydown', object: rcmail.message_list, method:'key_press'});
-                    rcube_event.add_listener({event:'keydown', object:rcmail.message_list, method:'key_down'});
-                    $('#new-contacts-dialog').remove();
-                    recipient_to_contact.end();
-                },
-                Save: recipient_to_contact.save_contacts
-            }
+            buttons: [
+				{
+					text: rcmail.gettext('dialog_close_button', 'recipient_to_contact'),
+					"id": "btnClose",
+					click: function() {
+					//rcmail.gettext('dialog_close_button', 'recipient_to_contact'): function() {
+						$(this).dialog( "close" );
+						// description below
+						rcube_event.add_listener({event:bw.opera?'keypress':'keydown', object: rcmail.message_list, method:'key_press'});
+						rcube_event.add_listener({event:'keydown', object:rcmail.message_list, method:'key_down'});
+						$('#new-contacts-dialog').remove();
+						recipient_to_contact.end();
+					}
+				},
+					{
+					text: rcmail.gettext('dialog_save_button', 'recipient_to_contact'),
+					"id": "btnSave",
+					click: function() { 
+						recipient_to_contact.save_contacts(); 
+					}
+				}
+			]
         });
 
         // pre select all checkboxes by default

@@ -14,6 +14,8 @@ $labels['dialog_contact_surname'] = 'Cognome';
 $labels['dialog_contact_addressbook'] = 'Rubrica:';
 $labels['dialog_contact_group'] = 'Gruppo:';
 $labels['dialog_email'] = 'Email';
+$labels['dialog_close_button'] = 'Close';
+$labels['dialog_save_button'] = 'Save';
 
 // various response messages
 $labels['response_name_empty'] = 'Inserisci un \'nome visualizzato\'';

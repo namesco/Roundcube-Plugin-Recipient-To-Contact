@@ -2,8 +2,10 @@ Recipient To Contact Changelog:
 
 Release 0.3.1
 ==============================
-- Added pt_BR language support
 - Bugfix: only list writeable addressbooks
+- Added pt_BR language support
+- Added translation in 'Close' and 'Save' buttons in dialog
+- TODO: translate 2 new strings - done only in en_US, en_GB and pt_BR
 
 Release 0.3
 ==============================

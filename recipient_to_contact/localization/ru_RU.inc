@@ -14,6 +14,8 @@ $labels['dialog_contact_surname'] = 'Surname';
 $labels['dialog_contact_addressbook'] = 'Addressbook:';
 $labels['dialog_contact_group'] = 'Group: ';
 $labels['dialog_email'] = 'Email адресс';
+$labels['dialog_close_button'] = 'Close';
+$labels['dialog_save_button'] = 'Save';
 
 // various response messages
 $labels['response_name_empty'] = 'Пожалуйста введите имя контакта';
