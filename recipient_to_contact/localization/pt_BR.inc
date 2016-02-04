@@ -14,6 +14,8 @@ $labels['dialog_contact_surname'] = 'Sobrenome';
 $labels['dialog_contact_addressbook'] = 'Catálogo de endereços:';
 $labels['dialog_contact_group'] = 'Grupo: ';
 $labels['dialog_email'] = 'Endereço de e-mail';
+$labels['dialog_close_button'] = 'Fechar';
+$labels['dialog_save_button'] = 'Salvar';
 
 // various response messages
 $labels['response_name_empty'] = 'Por favor entre com um nome de contato';
