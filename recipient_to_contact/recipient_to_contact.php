@@ -100,9 +100,11 @@ class recipient_to_contact extends rcube_plugin
             // configured for autocompletition
 			$enabled_addressbooks = $this->rcmail->config->get('recipient_to_contact_addressbooks');
 			if (empty($enabled_addressbooks)) {
-				$this->addressbooks = $this->get_addressbooks($this->rcmail->config->get('autocomplete_addressbooks'));
+				// get only writeable addressbooks
+				$this->addressbooks = $this->get_addressbooks($this->rcmail->config->get('autocomplete_addressbooks'), true);
 			} else {
-				$this->addressbooks = $this->get_addressbooks($enabled_addressbooks);
+				// get only writeable addressbooks
+				$this->addressbooks = $this->get_addressbooks($enabled_addressbooks, true);
 			}
 		}
 
@@ -123,6 +125,8 @@ class recipient_to_contact extends rcube_plugin
      */
     public function check_recipients($args)
     {
+		$rcmail = rcmail::get_instance();
+		
         // don't process the sent message, if it's a 'Read Receipt' response
         if (isset($args['headers']['Content-Type'])
                 && strpos($args['headers']['Content-Type'], 'report-type=disposition-notification') !== false) {
@@ -147,7 +151,28 @@ class recipient_to_contact extends rcube_plugin
         foreach ($recipients as $recipient) {
             // flag to denote if the current recipient doesn't exist in any of the address books
             $is_new_contact = true;
-
+			
+			// if we dont want to list users in same domain as us for some reason
+			// example: globaladdressbook plugin with all domain users inside
+			if (!$this->rcmail->config->get('recipient_to_contact_addressbooks')) {				
+				// get current recipient domain
+				$recipient_domain = preg_replace ('/^[^@]*@(.*)$/', '$1', $recipient['mailto']);
+				// get identity used to send email
+				$identity = $rcmail->user->get_identity();
+				// get current identity domain
+				$identity_domain = preg_replace ('/^[^@]*@(.*)$/', '$1', $identity['email']);
+				
+				// check if recipient domain match with this identify domain
+				// if match, continue loop and ignore recipient
+				if ($recipient_domain == $identity_domain) {
+					unset($recipient_domain);
+					unset($identity);
+					unset($identity_domain);
+					$is_new_contact = false;
+					continue;					
+				}
+			}
+			
             // interate over over address books and search for a contact with the same email address
             foreach ($this->addressbooks as $abook_id => $address_source) {
                 $address_book = $this->rcmail->get_address_book($abook_id);

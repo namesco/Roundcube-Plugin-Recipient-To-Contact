@@ -1,5 +1,10 @@
 Recipient To Contact Changelog:
 
+Release 0.3.2
+==============================
+- Added configuration to not show recipients in the same domain as 
+  the current user's identity domain
+
 Release 0.3.1
 ==============================
 - Bugfix: only list writeable addressbooks

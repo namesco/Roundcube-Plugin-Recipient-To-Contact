@@ -19,4 +19,12 @@ $rcmail_config['recipient_to_contact_enabled_by_default'] = true;
  *
  * If set to true, the contact group dropdown is shown in the dialog.
  */
-$rcmail_config['recipient_to_contact_use_groups'] = false;
+$rcmail_config['recipient_to_contact_use_groups'] = true;
+
+/**
+ * Whether show recipients with same domain as current identity
+ * 
+ * If set to true, will show all recipients, regardless of their domain
+ * If set to false, will skip recipients that have same domain as current identity
+ */
+$rcmail_config['recipient_to_contact_same_domain'] = false;
