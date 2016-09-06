@@ -1,5 +1,17 @@
 Recipient To Contact Changelog:
 
+Release 0.3.2
+==============================
+- Added configuration to not show recipients in the same domain as 
+  the current user's identity domain
+
+Release 0.3.1
+==============================
+- Bugfix: only list writeable addressbooks
+- Added pt_BR language support
+- Added translation in 'Close' and 'Save' buttons in dialog
+- TODO: translate 2 new strings - done only in en_US, en_GB and pt_BR
+
 Release 0.3
 ==============================
 - New maintainer (and first release in over 2 years, sorry).
