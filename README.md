@@ -21,7 +21,7 @@ Features:
 
 1. Download latest stable release from GitHub.
 2. Extract the downloaded archive, and place the `recipient_to_contact` directory in `plugins/` folder.
-3. Add `recipient_to_contact` to `$rcmail_config['plugins']` in your Roundcube config.
+3. Add `recipient_to_contact` and `jqueryui` to `$rcmail_config['plugins']` in your Roundcube config.
 
 ## Configuration
 
