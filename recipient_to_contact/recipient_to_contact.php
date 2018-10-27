@@ -220,7 +220,7 @@ class recipient_to_contact extends rcube_plugin
         $response = array();
 
         // get request data (all contacts we want to save)
-        $contacts = get_input_value('_contacts', RCUBE_INPUT_POST);
+        $contacts = rcube_utils::get_input_value('_contacts', rcube_utils::INPUT_POST);
 
         // iterate over each contact, validate and create new permament contacts
         foreach ($contacts as $key => $contact) {
@@ -338,7 +338,7 @@ class recipient_to_contact extends rcube_plugin
         // ensure that we are in the relevant section
         if ($args['section'] == 'recipienttocontact') {
             // check if the plugin has been activated or deactivated
-            if (get_input_value('_use_recipienttocontact', RCUBE_INPUT_POST) !== null) {
+            if (rcube_utils::get_input_value('_use_recipienttocontact', rcube_utils::INPUT_POST) !== null) {
                 $args['prefs']['use_recipienttocontact'] = true;
             } else {
                 $args['prefs']['use_recipienttocontact'] = false;
@@ -383,9 +383,9 @@ class recipient_to_contact extends rcube_plugin
     public function get_addressbook_groups()    {
 
         // get addressbook's id from request
-        $address_book_id = get_input_value('address_book_id', RCUBE_INPUT_POST);
+        $address_book_id = rcube_utils::get_input_value('address_book_id', rcube_utils::INPUT_POST);
         // get key from request. Key identifies the row wich sent the request
-        $key = get_input_value('key', RCUBE_INPUT_POST);
+        $key = rcube_utils::get_input_value('key', rcube_utils::INPUT_POST);
 
         // get addressbook by id
         $rcube_contacts = $this->rcmail->get_address_book($address_book_id);
