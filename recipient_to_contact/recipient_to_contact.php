@@ -229,14 +229,14 @@ class recipient_to_contact extends rcube_plugin
             // visualization name cannot be empty
             if (empty($contact['_name'])) {
                 $response[$key]['status'] = 'fail';
-                $response[$key]['message'] = Q($this->gettext('response_name_empty'));
+                $response[$key]['message'] = rcube::Q($this->gettext('response_name_empty'));
                 continue;
             }
 
             // email should be valid
             if (!check_email($contact['_email'], false)) {
                 $response[$key]['status'] = 'fail';
-                $response[$key]['message'] = Q($this->gettext('response_email_invalid'));
+                $response[$key]['message'] = rcube::Q($this->gettext('response_email_invalid'));
                 continue;
             }
 
@@ -248,7 +248,7 @@ class recipient_to_contact extends rcube_plugin
                         'firstname' => $contact['_firstname'], 'surname' => $contact['_surname']));
             if ($id == false) {
                 $response[$key]['status'] = 'fail';
-                $response[$key]['message'] = Q($this->gettext('response_server_error'));
+                $response[$key]['message'] = rcube::Q($this->gettext('response_server_error'));
                 continue;
             }
 
@@ -260,7 +260,7 @@ class recipient_to_contact extends rcube_plugin
 
             // all ok
             $response[$key]['status'] = 'ok';
-            $response[$key]['message'] = Q($this->gettext('response_confirm'));
+            $response[$key]['message'] = rcube::Q($this->gettext('response_confirm'));
         }
 
         // return reponse to client
@@ -295,13 +295,13 @@ class recipient_to_contact extends rcube_plugin
             );
 
             $args['blocks']['recipienttocontact']['options']['description'] = array(
-                'title' =>   html::div(null, Q($this->gettext('prefs_descr'))) . html::br(),
+                'title' =>   html::div(null, rcube::Q($this->gettext('prefs_descr'))) . html::br(),
                 'content' => ''
             );
 
             $args['blocks']['recipienttocontact']['name'] = $this->gettext('prefs_title');
             $args['blocks']['recipienttocontact']['options']['use_subscriptions'] = array(
-                'title' => html::label($field_id, Q($this->gettext('prefs_option'))),
+                'title' => html::label($field_id, rcube::Q($this->gettext('prefs_option'))),
                 'content' => $checkbox->show($use_recipienttocontact ? 1 : 0),
             );
         }
@@ -320,7 +320,7 @@ class recipient_to_contact extends rcube_plugin
     {
         $args['list']['recipienttocontact'] = array(
             'id' => 'recipienttocontact',
-            'section' => Q($this->gettext('prefs_title'))
+            'section' => rcube::Q($this->gettext('prefs_title'))
         );
 
         return $args;
