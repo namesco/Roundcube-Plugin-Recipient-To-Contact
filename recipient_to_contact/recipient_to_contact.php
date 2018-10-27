@@ -130,12 +130,12 @@ class recipient_to_contact extends rcube_plugin
         $rcube_imap = new rcube_imap(null);
 
         // build recipients array
-        $recipients = $rcube_imap->decode_address_list($args['headers']['To']);
+        $recipients = rcube_mime::decode_address_list($args['headers']['To']);
         if (isset($args['headers']['Cc'])) {
-            $recipients = array_merge($recipients, $rcube_imap->decode_address_list($args['headers']['Cc']));
+            $recipients = array_merge($recipients, rcube_mime::decode_address_list($args['headers']['Cc']));
         }
         if (isset($args['headers']['Bcc'])) {
-            $recipients = array_merge($recipients, $rcube_imap->decode_address_list($args['headers']['Bcc']));
+            $recipients = array_merge($recipients, rcube_mime::decode_address_list($args['headers']['Bcc']));
         }
 
         // stores contacts that don't exist in current address books
